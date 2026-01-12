@@ -89,6 +89,13 @@ struct AppData {
     char text_input[4096] = "";
     char text_output[4096] = "";
     bool text_mode = false;
+    
+    // Security: zero sensitive buffers
+    void clear_sensitive() {
+        secure_zero(MutableByteSpan{reinterpret_cast<Byte*>(keygen_password), sizeof(keygen_password)});
+        secure_zero(MutableByteSpan{reinterpret_cast<Byte*>(encrypt_password), sizeof(encrypt_password)});
+        secure_zero(MutableByteSpan{reinterpret_cast<Byte*>(decrypt_password), sizeof(decrypt_password)});
+    }
 };
 
 static AppData g_app;
@@ -453,6 +460,8 @@ void RenderKeyGenPanel() {
                 if (g_app.keygen_use_password && strlen(g_app.keygen_password) > 0) {
                     priv_result = result->save_private_key_encrypted(
                         base_path + ".pem", g_app.keygen_password);
+                    // Security: zero password after use
+                    secure_zero(MutableByteSpan{reinterpret_cast<Byte*>(g_app.keygen_password), sizeof(g_app.keygen_password)});
                 } else {
                     priv_result = result->save_private_key(base_path + ".pem");
                 }
