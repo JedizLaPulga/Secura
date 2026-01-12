@@ -1,0 +1,24 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+    "name": "secura",
+    "version": "0.1.0",
+    "description": "A lightweight encryption tool built with modern C++23",
+    "license": "MIT",
+    "supports": "windows & x64",
+    "dependencies": [
+        {
+            "name": "openssl",
+            "version>=": "3.0.0",
+            "features": []
+        },
+        {
+            "name": "gtest",
+            "version>=": "1.14.0"
+        },
+        {
+            "name": "fmt",
+            "version>=": "10.0.0"
+        }
+    ],
+    "builtin-baseline": "c82f74667287d3dc386bce81e44964370c91a289"
+}
