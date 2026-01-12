@@ -664,7 +664,7 @@ ExitCode cmd_decrypt(const ParsedArgs& args) {
 
 ExitCode run(std::span<char*> args) {
     if (args.size() < 2) {
-        cmd_help({});
+        (void)cmd_help({});  // Show help, but return error for no arguments
         return ExitCode::InvalidArguments;
     }
     
