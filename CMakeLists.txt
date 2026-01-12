@@ -79,10 +79,11 @@ target_link_libraries(secura_core
 )
 
 # ============================================================================
-# Main Executable (CLI or GUI entry point)
+# Main Executable (CLI entry point)
 # ============================================================================
 add_executable(secura
     ${SECURA_SRC_DIR}/main.cpp
+    ${SECURA_SRC_DIR}/cli.cpp
 )
 
 target_link_libraries(secura
