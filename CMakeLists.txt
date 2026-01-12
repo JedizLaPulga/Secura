@@ -56,11 +56,9 @@ set(SECURA_TEST_DIR ${CMAKE_SOURCE_DIR}/tests)
 # Main Library (Core encryption functionality)
 # ============================================================================
 add_library(secura_core STATIC
-    # Add source files here as you create them:
-    # ${SECURA_SRC_DIR}/encryptor.cpp
-    # ${SECURA_SRC_DIR}/decryptor.cpp
-    # ${SECURA_SRC_DIR}/key_manager.cpp
-    ${SECURA_SRC_DIR}/placeholder.cpp  # Temporary placeholder
+    ${SECURA_SRC_DIR}/key_manager.cpp
+    ${SECURA_SRC_DIR}/encryptor.cpp
+    ${SECURA_SRC_DIR}/decryptor.cpp
 )
 
 target_include_directories(secura_core
@@ -95,10 +93,8 @@ target_link_libraries(secura
 enable_testing()
 
 add_executable(secura_tests
-    # Add test files here as you create them:
-    # ${SECURA_TEST_DIR}/test_encryptor.cpp
-    # ${SECURA_TEST_DIR}/test_decryptor.cpp
-    ${SECURA_TEST_DIR}/test_placeholder.cpp  # Temporary placeholder
+    ${SECURA_TEST_DIR}/test_key_manager.cpp
+    ${SECURA_TEST_DIR}/test_crypto.cpp
 )
 
 target_link_libraries(secura_tests
