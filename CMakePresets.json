@@ -36,7 +36,7 @@
             "displayName": "Release",
             "description": "Release build with MSVC",
             "inherits": "vcpkg-base",
-            "generator": "Visual Studio 18 2025",
+            "generator": "Visual Studio 18 2026",
             "binaryDir": "${sourceDir}/build/release",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
