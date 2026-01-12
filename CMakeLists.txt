@@ -92,6 +92,35 @@ target_link_libraries(secura
 )
 
 # ============================================================================
+# GUI Executable (Dear ImGui + DirectX 11)
+# ============================================================================
+find_package(imgui CONFIG QUIET)
+if(imgui_FOUND)
+    add_executable(secura_gui WIN32
+        ${SECURA_SRC_DIR}/gui_main.cpp
+        ${SECURA_SRC_DIR}/gui.cpp
+    )
+
+    target_link_libraries(secura_gui
+        PRIVATE
+            secura_core
+            imgui::imgui
+            d3d11
+            dxgi
+    )
+
+    target_compile_definitions(secura_gui PRIVATE
+        UNICODE
+        _UNICODE
+    )
+    
+    message(STATUS "GUI enabled: secura_gui will be built")
+else()
+    message(STATUS "GUI disabled: imgui not found")
+endif()
+
+
+# ============================================================================
 # Tests
 # ============================================================================
 enable_testing()
