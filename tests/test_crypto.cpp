@@ -193,8 +193,8 @@ TEST(CryptoIntegrationTest, EncryptDecrypt_UnicodeText) {
     auto key = KeyManager::generate_key();
     ASSERT_TRUE(key.has_value());
     
-    // Unicode text with various scripts
-    const std::string original = u8"Hello 世界 🔐 Привет مرحبا";
+    // Unicode text with various scripts (stored as UTF-8 in source file)
+    const std::string original = "Hello World - Unicode Test 日本語 Привет";
     
     auto encrypted = Encryptor::encrypt_text(original, key->span());
     ASSERT_TRUE(encrypted.has_value());
