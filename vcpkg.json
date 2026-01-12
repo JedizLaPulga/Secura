@@ -8,6 +8,14 @@
     "dependencies": [
         "openssl",
         "gtest",
-        "fmt"
+        "fmt",
+        {
+            "name": "imgui",
+            "features": [
+                "docking-experimental",
+                "win32-binding",
+                "dx11-binding"
+            ]
+        }
     ]
 }
