@@ -59,6 +59,9 @@ add_library(secura_core STATIC
     ${SECURA_SRC_DIR}/key_manager.cpp
     ${SECURA_SRC_DIR}/encryptor.cpp
     ${SECURA_SRC_DIR}/decryptor.cpp
+    ${SECURA_SRC_DIR}/rsa_key_pair.cpp
+    ${SECURA_SRC_DIR}/rsa_encryptor.cpp
+    ${SECURA_SRC_DIR}/rsa_decryptor.cpp
 )
 
 target_include_directories(secura_core
@@ -95,6 +98,7 @@ enable_testing()
 add_executable(secura_tests
     ${SECURA_TEST_DIR}/test_key_manager.cpp
     ${SECURA_TEST_DIR}/test_crypto.cpp
+    ${SECURA_TEST_DIR}/test_rsa.cpp
 )
 
 target_link_libraries(secura_tests

@@ -122,6 +122,63 @@ int main() {
                   << error_to_string(tampered_result.error()) << "\n";
     }
     
+    // ========================================================================
+    // Demo 5: RSA Key Generation
+    // ========================================================================
+    std::cout << "\n--- Demo 5: RSA Key Pair Generation ---\n";
+    
+    auto rsa_keypair = RsaKeyPair::generate(RsaKeySize::Bits2048);
+    if (!rsa_keypair) {
+        std::cerr << "Failed to generate RSA key pair: " 
+                  << error_to_string(rsa_keypair.error()) << "\n";
+        return 1;
+    }
+    
+    std::cout << "Generated RSA-" << rsa_keypair->key_size_bits() << " key pair\n";
+    std::cout << "Max direct encrypt size: " << rsa_keypair->max_encrypt_size() << " bytes\n";
+    
+    // Export and show public key header
+    auto public_pem = rsa_keypair->export_public_key_pem();
+    if (public_pem) {
+        std::cout << "Public key (first 64 chars): " 
+                  << public_pem->substr(0, 64) << "...\n";
+    }
+    
+    // ========================================================================
+    // Demo 6: RSA Hybrid Encryption (for large data)
+    // ========================================================================
+    std::cout << "\n--- Demo 6: RSA Hybrid Encryption ---\n";
+    
+    const std::string rsa_message = "This message is encrypted with RSA + AES hybrid encryption!";
+    std::cout << "Plaintext: \"" << rsa_message << "\"\n";
+    
+    // Encrypt with hybrid (RSA encrypts AES key, AES encrypts data)
+    auto hybrid_encrypted = RsaEncryptor::hybrid_encrypt_text(rsa_message, *rsa_keypair);
+    if (!hybrid_encrypted) {
+        std::cerr << "Hybrid encryption failed: " 
+                  << error_to_string(hybrid_encrypted.error()) << "\n";
+        return 1;
+    }
+    
+    std::cout << "RSA-encrypted AES key: " << hybrid_encrypted->encrypted_key.size() << " bytes\n";
+    std::cout << "AES-encrypted data: " << hybrid_encrypted->encrypted_data.size() << " bytes\n";
+    
+    // Serialize for transmission
+    ByteBuffer serialized = RsaEncryptor::serialize_hybrid_data(*hybrid_encrypted);
+    std::cout << "Total serialized size: " << serialized.size() << " bytes\n";
+    
+    // Decrypt
+    auto hybrid_decrypted = RsaDecryptor::hybrid_decrypt_text(*hybrid_encrypted, *rsa_keypair);
+    if (!hybrid_decrypted) {
+        std::cerr << "Hybrid decryption failed: " 
+                  << error_to_string(hybrid_decrypted.error()) << "\n";
+        return 1;
+    }
+    
+    std::cout << "Decrypted: \"" << *hybrid_decrypted << "\"\n";
+    std::cout << "RSA hybrid round-trip successful: " 
+              << (rsa_message == *hybrid_decrypted ? "YES" : "NO") << "\n";
+    
     std::cout << "\n=== All demos completed successfully! ===\n";
     
     return 0;
